@@ -37,7 +37,6 @@ class WeatherAPI {
   }
 
   async getForecast({ lat, lon }: Coordinates): Promise<ForecastData> {
-    // TODO check forecast type
     const url = this.createUrl(`${API_CONFIG.BASE_URL}/forecast`, {
       lat: lat.toString(),
       lon: lon.toString(),
@@ -55,6 +54,15 @@ class WeatherAPI {
       lat: lat.toString(),
       lon: lon.toString(),
       limit: 1,
+    });
+
+    return this.fetchData<GeocodingResponse[]>(url);
+  }
+
+  async searchLocations(query: string): Promise<GeocodingResponse[]> {
+    const url = this.createUrl(`${API_CONFIG.GEO}/direct`, {
+      q: query,
+      limit: 5,
     });
 
     return this.fetchData<GeocodingResponse[]>(url);

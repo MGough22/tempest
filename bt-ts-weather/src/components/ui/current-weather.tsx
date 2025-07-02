@@ -65,7 +65,6 @@ const CurrentWeather = ({ data, locationName }: CurentWeatherProps) => {
                     <p className="text-sm text-muted-froeground">{humidity}%</p>
                   </div>
                 </div>
-                {/* // */}
                 <div className="flex items-center gap-2">
                   <Wind className="h-4 w-4 tex-blue-500" />
                   <div className="space-y-0.5">
@@ -73,10 +72,8 @@ const CurrentWeather = ({ data, locationName }: CurentWeatherProps) => {
                     <p className="text-sm text-muted-froeground">{speed} m/s</p>
                   </div>
                 </div>
-                {/* // */}
               </div>
             </div>
-            {/* // */}
             <div className="flex flex-col items-center justify-center">
               <div className="relative flex aspect-square w-full max-w-[200px] items-center justify-center">
                 <img

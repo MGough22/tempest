@@ -10,7 +10,7 @@ const Layout = ({ children }: PropsWithChildren) => {
       </main>
       <footer className="border-t backdrop-blur bg-background/60 py-12">
         <div className="container mx-auto px-4 text-center text-gray-400">
-          <p>Made MG</p>
+          <p>&copy; {new Date().getFullYear()} MG</p>
         </div>
       </footer>
     </div>

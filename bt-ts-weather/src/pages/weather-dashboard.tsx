@@ -1,10 +1,10 @@
-import { API_CONFIG } from "@/api/config";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import CurrentWeather from "@/components/ui/current-weather";
 import HourlyTemperature from "@/components/ui/hourly-temperature";
 import WeatherSkeleton from "@/components/ui/loading-skeleton";
 import WeatherDetails from "@/components/ui/weather-details";
+import { WeatherForecast } from "@/components/ui/weather-forecast";
 import { useGeoLocation } from "@/hooks/use-geolocation";
 import {
   useForecastQuery,
@@ -12,7 +12,6 @@ import {
   useWeatherQuery,
 } from "@/hooks/use-weather";
 import { AlertTriangle, MapPin, RefreshCw } from "lucide-react";
-import React from "react";
 
 const WeatherDashboard = () => {
   const {
@@ -22,15 +21,9 @@ const WeatherDashboard = () => {
     isLoading: locationLoading,
   } = useGeoLocation();
 
-  //   console.log("here", coordinates);
-  //   console.log("error", locationError);
-
   const locationQuery = useReverseGeocodeQuery(coordinates);
   const weatherQuery = useWeatherQuery(coordinates);
   const forecastQuery = useForecastQuery(coordinates);
-
-  //   console.log("config ", API_CONFIG);
-  //   console.log("locationQuery should be here: ", locationQuery);
 
   const handleRefresh = () => {
     getLocation();
@@ -85,9 +78,7 @@ const WeatherDashboard = () => {
 
   return (
     <div className="space-y-4">
-      {/* Favourite cities */}
       <div className="flex items-center justify-between">
-        {/* add horizontal padding later */}
         <h1 className="text-xl font-bold tracking-tight">My Location</h1>
         <Button
           variant={"outline"}
@@ -102,7 +93,6 @@ const WeatherDashboard = () => {
           />
         </Button>
       </div>
-      {/* Current and hourly weather */}
       <div className=" grid gap-6">
         <div className="flex flex-col lg:flex-row gap-4">
           <CurrentWeather
@@ -111,10 +101,9 @@ const WeatherDashboard = () => {
           />
           <HourlyTemperature data={forecastQuery.data} />
         </div>
-        <div>
+        <div className="grid gap-6 md:grid-cols-2 items-start">
           <WeatherDetails data={weatherQuery.data} />
-          {/* TODO details
-            TODO forecast */}
+          <WeatherForecast data={forecastQuery.data} />
         </div>
       </div>
     </div>
