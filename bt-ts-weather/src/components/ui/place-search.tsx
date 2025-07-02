@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Button } from "./button";
 import {
+  Command,
   CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
 } from "./command";
 import { Loader2, Search } from "lucide-react";
 import { useLocationSearch } from "@/hooks/use-weather";
@@ -37,60 +37,58 @@ const PlaceSearch = () => {
         <Search className="mr-2 h-4 w-4" />
         Search Locations
       </Button>
-      <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput
-          placeholder="Search locations..."
-          value={query}
-          onValueChange={setQuery}
-        />
-        <CommandList>
-          {query.length > 2 && !isLoading && (
-            <CommandEmpty>No locations found.</CommandEmpty>
-          )}
-          {/* <CommandGroup heading="Recently searched">
-            <CommandItem>Calculator</CommandItem>
-          </CommandGroup>
-          <CommandSeparator /> */}
-          {/* {locations && locations.length > 0 && (
-            <CommandGroup heading="Suggestions">
-                {isLoading && (
-                    <div className="flex items-center justify-center p-4">
-                        <Loader2 className="h-4 w-4 animate-spin"/>
-                    </div>
-                )}
-              <CommandItem>Calculator</CommandItem>
-            </CommandGroup>
-          )} */}
-          <CommandSeparator />
-          {locations && locations.length > 0 && (
-            <CommandGroup heading="Suggestions">
-              {isLoading && (
-                <div className="flex items-center justify-center p-4">
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                </div>
+      <Command className="bg-background-95 backdrop-blur">
+        <CommandDialog open={open} onOpenChange={setOpen}>
+          <Command className="bg-background-95 backdrop-blur rounded-md shadow-lg p-2">
+            <CommandInput
+              placeholder="Search locations..."
+              value={query}
+              onValueChange={setQuery}
+              className="bg-background-95 backdrop-blur mb-2"
+            />
+
+            <CommandList className="bg-background-95 backdrop-blur max-h-60 overflow-y-auto">
+              {query.length > 2 && !isLoading && (
+                <CommandEmpty className="p-4 text-center">
+                  No locations found.
+                </CommandEmpty>
               )}
-              {locations?.map(location => (
-                <CommandItem
-                  key={`${location.lat}-${location.lon}`}
-                  value={`${location.lat}|${location.lon}|${location.name}|${location.country}`}
-                  onSelect={handleSelect}
+
+              {locations && locations.length > 0 && (
+                <CommandGroup
+                  heading="Suggestions"
+                  className="bg-background-95 backdrop-blur"
                 >
-                  <Search className="mr-2 h-4 w-4" />
-                  <span>{location.name}</span>
-                  {location.state && (
-                    <span className="text-sm text-muted-foreground">
-                      , {location.state}
-                    </span>
+                  {isLoading && (
+                    <div className="flex items-center justify-center p-4">
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    </div>
                   )}
-                  <span className="text-sm text-muted-foreground">
-                    , {location.country}
-                  </span>
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          )}
-        </CommandList>
-      </CommandDialog>
+
+                  {locations.map(location => (
+                    <CommandItem
+                      key={`${location.lat}-${location.lon}`}
+                      value={`${location.lat}|${location.lon}|${location.name}|${location.country}`}
+                      onSelect={handleSelect}
+                    >
+                      <Search className="mr-2 h-4 w-4" />
+                      <span>{location.name}</span>
+                      {location.state && (
+                        <span className="text-sm text-muted-foreground">
+                          , {location.state}
+                        </span>
+                      )}
+                      <span className="text-sm text-muted-foreground">
+                        , {location.country}
+                      </span>
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              )}
+            </CommandList>
+          </Command>
+        </CommandDialog>
+      </Command>
     </>
   );
 };
