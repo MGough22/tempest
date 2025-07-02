@@ -40,17 +40,33 @@ const WeatherDashboard = () => {
 
   if (locationError) {
     return (
-      <Alert variant="destructive">
-        <AlertTriangle className="h-4 w-4" />
-        <AlertTitle>Location Error</AlertTitle>
-        <AlertDescription className="flex flex-col gap-4">
-          <p>{locationError}</p>
-          <Button onClick={getLocation} variant={"outline"} className="w-fit">
-            <MapPin className="mr-2 h-4 w-4" />
-            Enable Location
-          </Button>
-        </AlertDescription>
-      </Alert>
+      <div className="space-y-4">
+        <Alert variant="destructive">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertTitle>Location Error</AlertTitle>
+          <AlertDescription className="flex flex-col gap-4">
+            <p>{locationError}</p>
+            <Button onClick={getLocation} variant={"outline"} className="w-fit">
+              <MapPin className="mr-2 h-4 w-4" />
+              Prompt browser to enable Location
+            </Button>
+          </AlertDescription>
+        </Alert>
+
+        <Alert variant="default" className="bg-background-95 backdrop-blur">
+          <AlertTitle>Need Help?</AlertTitle>
+          <AlertDescription className="flex flex-col gap-2 text-sm">
+            <p>
+              Make sure location services are enabled in your browser or device
+              privacy settings.
+            </p>
+            <p>
+              If you prefer not to share your location, you can still search for
+              any place manually using the search bar above.
+            </p>
+          </AlertDescription>
+        </Alert>
+      </div>
     );
   }
 
