@@ -5,7 +5,6 @@ import { ThemeProvider } from "./context/theme-provider";
 import WeatherDashboard from "./pages/weather-dashboard";
 import PlacePage from "./pages/place";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClient = new QueryClient({
   defaultOptions: {
