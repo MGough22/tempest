@@ -43,12 +43,12 @@ const HourlyTemperature = ({ data }: HourlyTemperatureProps) => {
                 axisLine={false}
                 tickFormatter={value => `${value}°`}
               />
-              {/* tooltip TODO */}
+              {/* bg-background-95 backdrop-blur */}
               <Tooltip
                 content={({ active, payload }) => {
                   if (active && payload && payload.length) {
                     return (
-                      <div className="rounded-lg border bg-background p-2 shadow-sm">
+                      <div className="rounded-lg border bg-background-95 backdrop-blur p-2 shadow-sm">
                         <div className="grid grid-cols-2 gap-2">
                           <div className="flex flex-col">
                             <span className="text-[0.70rem] uppercase text-muted-foreground">
