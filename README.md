@@ -39,6 +39,7 @@ This project makes use of:
 ```bash
 git clone https://github.com/your-username/tempest.git
 cd tempest
+cd bt-ts-weather
 ```
 
 ### 2. Install Dependencies
