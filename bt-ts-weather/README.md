@@ -1,69 +1,115 @@
-# React + TypeScript + Vite
+# 🌤 Tempest — Weather Forecast App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Live Demo:** [https://tempest-weather.vercel.app/](https://tempest-weather.vercel.app/)
 
-Currently, two official plugins are available:
+Tempest is a weather app built with React and TypeScript. It provides detailed weather forecasts with intuitive visuals, supporting both location-based forecasts and manual location searches.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project was developed as a portfolio piece to demonstrate practical frontend skills including state management, responsive design, API integration, and component-based architecture.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## ✨ Features
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Live Weather Forecasts** — Powered by the OpenWeather API
+- **Location-based Weather** — Prompt to use browser location, or search any city manually
+- **Daily Highs, Lows & Conditions** — With clear iconography and temperature breakdown
+- **Responsive UI** — Optimized for mobile, tablet, and desktop
+- **Dark Mode Support**
+- **Elegant Visuals** — Built with modern UI libraries and subtle animations
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🛠 Tech Stack
+
+This project makes use of:
+
+- **React** — Functional components with hooks
+- **TypeScript** — Type safety and developer tooling
+- **TanStack Query** — Efficient data fetching and caching
+- **Shadcn UI** — Accessible, headless UI components
+- **Tailwind CSS** — Utility-first styling
+- **Recharts** — Simple, customizable charts for weather trends
+
+---
+
+## 🚀 Getting Started Locally
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/tempest.git
+cd tempest
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Install Dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
+
+### 3. Set Up Environment Variables
+
+You will need a free API key from [OpenWeather](https://home.openweathermap.org/):
+
+1. Sign up or log in to OpenWeather.
+2. Create an API key from your dashboard.
+
+Create a `.env` file in the project root with the following:
+
+```bash
+VITE_OPENWEATHER_API_KEY=your_api_key_here
+```
+
+**Note:** Do not commit your API key publicly.
+
+### 4. Run the Development Server
+
+```bash
+npm run dev
+```
+
+---
+
+## 📂 Project Structure
+
+```
+src/
+├── components/       # Reusable UI components
+├── context/          # Global context (theme, search state)
+├── hooks/            # Custom React hooks
+├── pages/            # Main route pages
+├── utils/            # Helper functions
+├── App.tsx           # Root application logic
+└── main.tsx          # App entry point
+```
+
+---
+
+## 🌍 API Usage
+
+This project uses [OpenWeather's One Call API](https://openweathermap.org/api/one-call-3) to retrieve weather data, including:
+
+- Current conditions
+- Daily forecasts
+- Temperature highs/lows
+- Humidity and wind details
+
+---
+
+## 🙌 Why This Project?
+
+Tempest was created to showcase:
+
+- Real-world API integration
+- Clean, accessible, and maintainable component architecture
+- Modern frontend tools (React, TypeScript, TanStack Query, shadcn)
+- Responsive, mobile-friendly design
+- Data visualization with Recharts
+
+---
+
+## 📢 Notes
+
+- Location permissions are optional — users can search manually if preferred.
+
+---
