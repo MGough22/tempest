@@ -5,6 +5,7 @@ import { ThemeProvider } from "./context/theme-provider";
 import WeatherDashboard from "./pages/weather-dashboard";
 import PlacePage from "./pages/place";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BackgroundBeams } from "./components/ui/background-beams";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -19,19 +20,22 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <ThemeProvider defaultTheme="dark">
-          <Layout>
-            <Routes>
-              <Route path="/" element={<WeatherDashboard />} />
-              <Route path="/place/:placeName" element={<PlacePage />} />
-            </Routes>
-          </Layout>
-        </ThemeProvider>
-      </BrowserRouter>
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-    </QueryClientProvider>
+    <>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <ThemeProvider defaultTheme="dark">
+            <BackgroundBeams />
+            <Layout>
+              <Routes>
+                <Route path="/" element={<WeatherDashboard />} />
+                <Route path="/place/:placeName" element={<PlacePage />} />
+              </Routes>
+            </Layout>
+          </ThemeProvider>
+        </BrowserRouter>
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+      </QueryClientProvider>
+    </>
   );
 }
 
