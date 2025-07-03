@@ -69,8 +69,8 @@ const WeatherDashboard = () => {
               privacy settings.
             </p>
             <p>
-              If you prefer not to share your location, you can still search for
-              any place manually using the search bar above.
+              Or, if you prefer not to share your location, you can still search
+              for any place manually using the search bar above.
             </p>
           </AlertDescription>
         </Alert>
@@ -95,17 +95,6 @@ const WeatherDashboard = () => {
       </Alert>
     );
   }
-
-  //   if (!weatherQuery.data || !forecastQuery.data) {
-  //     return (
-  //       <>
-  //         <div>
-  //           <BackgroundBeams />
-  //         </div>
-  //         <WeatherSkeleton />;
-  //       </>
-  //     );
-  //   }
 
   return (
     <div className="space-y-4">
