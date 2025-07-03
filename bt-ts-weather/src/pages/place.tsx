@@ -7,6 +7,7 @@ import { WeatherForecast } from "@/components/ui/weather-forecast";
 import { useForecastQuery, useWeatherQuery } from "@/hooks/use-weather";
 import { AlertTriangle } from "lucide-react";
 import { useParams, useSearchParams } from "react-router-dom";
+import { BackgroundBeams } from "@/components/ui/background-beams";
 
 const PlacePage = () => {
   const [searchParams] = useSearchParams();
@@ -32,11 +33,21 @@ const PlacePage = () => {
   }
 
   if (!weatherQuery.data || !forecastQuery.data || !params.placeName) {
-    return <WeatherSkeleton />;
+    return (
+      <>
+        <div>
+          <BackgroundBeams />
+        </div>
+        <WeatherSkeleton />;
+      </>
+    );
   }
 
   return (
     <div className="space-y-4">
+      <div>
+        <BackgroundBeams />
+      </div>
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold tracking-tight">
           {params.placeName}, {weatherQuery.data.sys.country}

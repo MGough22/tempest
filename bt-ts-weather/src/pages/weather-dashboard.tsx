@@ -35,8 +35,15 @@ const WeatherDashboard = () => {
     }
   };
 
-  if (locationLoading) {
-    return <WeatherSkeleton />;
+  if (locationLoading || !weatherQuery.data || !forecastQuery.data) {
+    return (
+      <>
+        <div>
+          <BackgroundBeams />
+        </div>
+        <WeatherSkeleton />;
+      </>
+    );
   }
 
   if (locationError) {
@@ -89,9 +96,16 @@ const WeatherDashboard = () => {
     );
   }
 
-  if (!weatherQuery.data || !forecastQuery.data) {
-    return <WeatherSkeleton />;
-  }
+  //   if (!weatherQuery.data || !forecastQuery.data) {
+  //     return (
+  //       <>
+  //         <div>
+  //           <BackgroundBeams />
+  //         </div>
+  //         <WeatherSkeleton />;
+  //       </>
+  //     );
+  //   }
 
   return (
     <div className="space-y-4">
