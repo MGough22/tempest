@@ -12,6 +12,7 @@ import {
   useWeatherQuery,
 } from "@/hooks/use-weather";
 import { AlertTriangle, MapPin, RefreshCw } from "lucide-react";
+import { BackgroundBeams } from "@/components/ui/background-beams";
 
 const WeatherDashboard = () => {
   const {
@@ -94,6 +95,9 @@ const WeatherDashboard = () => {
 
   return (
     <div className="space-y-4">
+      <div>
+        <BackgroundBeams />
+      </div>
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold tracking-tight">My Location</h1>
         <Button
