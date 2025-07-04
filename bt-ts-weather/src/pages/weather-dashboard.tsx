@@ -99,6 +99,7 @@ const WeatherDashboard = () => {
         <Button
           variant={"outline"}
           size={"icon"}
+          className="z-[10] relative"
           onClick={handleRefresh}
           disabled={weatherQuery.isFetching || forecastQuery.isFetching}
         >
