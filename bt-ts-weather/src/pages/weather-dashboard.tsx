@@ -1,5 +1,6 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import CantusWeek from "@/components/ui/cantus-week";
 import CurrentWeather from "@/components/ui/current-weather";
 import HourlyTemperature from "@/components/ui/hourly-temperature";
 import WeatherSkeleton from "@/components/ui/loading-skeleton";
@@ -11,7 +12,7 @@ import {
   useReverseGeocodeQuery,
   useWeatherQuery,
 } from "@/hooks/use-weather";
-import { AlertTriangle, MapPin, RefreshCw } from "lucide-react";
+import { AlertTriangle, Leaf, MapPin, RefreshCw } from "lucide-react";
 
 const WeatherDashboard = () => {
   const {
@@ -32,6 +33,10 @@ const WeatherDashboard = () => {
       weatherQuery.refetch();
       forecastQuery.refetch();
     }
+  };
+
+  const scrollToCantus = () => {
+    window.dispatchEvent(new Event("scrollToCantus"));
   };
 
   if (locationLoading || !weatherQuery.data || !forecastQuery.data) {
@@ -95,7 +100,18 @@ const WeatherDashboard = () => {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold tracking-tight">My Location</h1>
+        <h1
+          className="flex items-center gap-2 group text-xl font-bold tracking-tight z-[10] relative hover:text-green-500 transition-all ease-in cursor-pointer"
+          onClick={scrollToCantus}
+          title="Go to Cantus"
+        >
+          My Location
+          {
+            <span>
+              <Leaf className="opacity-0 text-green-500 group-hover:opacity-100 cursor-pointer transition-all ease-in" />
+            </span>
+          }
+        </h1>
         <Button
           variant={"outline"}
           size={"icon"}
@@ -122,6 +138,7 @@ const WeatherDashboard = () => {
           <WeatherDetails data={weatherQuery.data} />
           <WeatherForecast data={forecastQuery.data} />
         </div>
+        <CantusWeek />
       </div>
     </div>
   );

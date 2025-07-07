@@ -6,6 +6,7 @@ import PlaceSearch from "./place-search";
 const Header = () => {
   const { theme, setTheme } = useTheme();
   const isDark = theme === "dark";
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background-95 backdrop-blur py-2">
       <div className="container mx-auto flex flex-wrap h-16 items-center justify-between px-4">
