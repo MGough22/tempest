@@ -122,9 +122,9 @@ const CantusWeek = () => {
     >
       <GlowingStarsBackgroundCard>
         <WeekSelectingIcons searchvisible={false} />
-        <div className="flex justify-center items-center mt-4 px-8 sm:px-12 md:px-0">
+        <div className="poetry-text flex justify-center items-center mt-4 px-8 sm:px-12 md:px-0">
           <GlowingStarsDescription>
-            <p className="text-muted-foreground text-lg leading-relaxed">
+            <p className="text-muted-foreground text-xl leading-relaxed">
               {cantusSections[week - 1].map((line, index) => (
                 <span key={index}>
                   {line}
