@@ -103,7 +103,7 @@ const CantusWeek = () => {
                 {leftSubtitle}
               </p>
               <GlowingStarsTitle className="mx-auto" action={handleFirst}>
-                {toRoman(week)}
+                <p className="poetry-text">{toRoman(week)}</p>
               </GlowingStarsTitle>
               <p
                 className="whitespace-nowrap text-sm text-muted-foreground mr-3 md:mr-0"
@@ -134,9 +134,9 @@ const CantusWeek = () => {
     >
       <GlowingStarsBackgroundCard>
         <WeekSelectingIcons searchvisible={false} />
-        <div className="poetry-text flex justify-center items-center mt-4 px-8 sm:px-12 md:px-0">
+        <div className="poetry-text flex justify-center items-center mt-4 px-8 sm:px-12 md:px-12">
           <GlowingStarsDescription>
-            <p className="text-muted-foreground text-xl leading-relaxed">
+            <p className="text-xl leading-relaxed opacity-85">
               {cantusSections[week - 1].map((line, index) => (
                 <span key={index}>
                   {line}
