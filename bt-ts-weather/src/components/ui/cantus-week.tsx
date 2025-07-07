@@ -1,5 +1,5 @@
 import { cantusSections } from "./whitman";
-import { getWeek, format } from "date-fns";
+import { getWeek, format, add } from "date-fns";
 import {
   GlowingStarsBackgroundCard,
   GlowingStarsTitle,
@@ -38,6 +38,18 @@ const CantusWeek = () => {
     setWeek(weekNumber);
   };
   const [cantusIsVisible, setCantusIsVisible] = useState(false);
+
+  const leftSubtitle = week === weekNumber ? "Current Week" : "Week Number";
+
+  const rightSubtitle = (targetWeek: number) => {
+    if (targetWeek === weekNumber) {
+      return currentDate;
+    } else {
+      const discrepancy = targetWeek - weekNumber;
+      const alteredDate = add(new Date(), { days: 7 * discrepancy });
+      return format(alteredDate, "d MMMM yyyy");
+    }
+  };
 
   const handleFirst = () => {
     setWeek(1);
@@ -88,7 +100,7 @@ const CantusWeek = () => {
                 className="whitespace-nowrap text-sm text-muted-foreground ml-3 md:ml-0"
                 onClick={handleNow}
               >
-                Week Number
+                {leftSubtitle}
               </p>
               <GlowingStarsTitle className="mx-auto" action={handleFirst}>
                 {toRoman(week)}
@@ -97,7 +109,7 @@ const CantusWeek = () => {
                 className="whitespace-nowrap text-sm text-muted-foreground mr-3 md:mr-0"
                 onClick={handleNow}
               >
-                {currentDate}
+                {rightSubtitle(week)}
               </p>
             </div>
           )}

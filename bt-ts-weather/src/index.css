@@ -134,13 +134,13 @@
 }
 
 @font-face {
-  font-family: "AlmostRoman";
-  src: url("/fonts/AlmostRoman.woff") format("woff");
+  font-family: "aldus";
+  src: url("/fonts/Aldus.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 .poetry-text p {
-  font-family: "AlmostRoman", serif;
+  font-family: "aldus", serif;
 }
