@@ -37,6 +37,7 @@ const CantusWeek = () => {
   const handleNow = () => {
     setWeek(weekNumber);
   };
+  const [cantusIsVisible, setCantusIsVisible] = useState(false);
 
   const handleFirst = () => {
     setWeek(1);
@@ -46,6 +47,7 @@ const CantusWeek = () => {
 
   useEffect(() => {
     const handleScrollToCantus = () => {
+      setCantusIsVisible(true);
       scrollToTop();
     };
 
@@ -114,7 +116,9 @@ const CantusWeek = () => {
   return (
     <div
       ref={topElementRef}
-      className="flex py-20 items-center justify-center antialiased w-full h-full "
+      className={`flex py-20 items-center justify-center antialiased w-full h-full ${
+        cantusIsVisible ? "block" : "hidden"
+      }`}
     >
       <GlowingStarsBackgroundCard>
         <WeekSelectingIcons searchvisible={false} />
