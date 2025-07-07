@@ -83,7 +83,7 @@ const CantusWeek = () => {
           ) : (
             <div className="w-[300px] flex items-center justify-center text-center gap-2 opacity-100">
               <p
-                className="whitespace-nowrap text-sm text-muted-foreground"
+                className="whitespace-nowrap text-sm text-muted-foreground ml-3 md:ml-0"
                 onClick={handleNow}
               >
                 Week Number
@@ -92,7 +92,7 @@ const CantusWeek = () => {
                 {toRoman(week)}
               </GlowingStarsTitle>
               <p
-                className="whitespace-nowrap text-sm text-muted-foreground"
+                className="whitespace-nowrap text-sm text-muted-foreground mr-3 md:mr-0"
                 onClick={handleNow}
               >
                 {currentDate}
