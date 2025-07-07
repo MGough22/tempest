@@ -33,7 +33,7 @@ const CurrentWeather = ({ data, locationName }: CurentWeatherProps) => {
                     </span>
                   )}
                 </div>
-                <p className="text-sm text-muted-foregound">
+                <p className="text-sm text-muted-foreground">
                   {locationName?.country}
                 </p>
               </div>
