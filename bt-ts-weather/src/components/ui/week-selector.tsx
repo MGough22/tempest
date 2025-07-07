@@ -30,7 +30,7 @@ export function WeekSelector({
         <Button
           variant="ghostLineAlt"
           role="combobox"
-          className={`w-[300px] justify-center gap-1 font-medium`}
+          className={`w-[300px] justify-center gap-1 font-medium cursor-pointer`}
         >
           {value ? (
             <>

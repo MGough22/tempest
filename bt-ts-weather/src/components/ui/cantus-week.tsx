@@ -82,6 +82,7 @@ const CantusWeek = () => {
           variant={"ghostLine"}
           size={"icon"}
           disabled={week === 1}
+          className="cursor-pointer"
         >
           <ArrowLeft className="h-4 w-4" />
         </Button>
@@ -97,16 +98,16 @@ const CantusWeek = () => {
           ) : (
             <div className="w-[300px] flex items-center justify-center text-center gap-2 opacity-100">
               <p
-                className="whitespace-nowrap text-sm text-muted-foreground ml-3 md:ml-0"
+                className="whitespace-nowrap text-sm text-muted-foreground ml-3 md:ml-0 cursor-pointer"
                 onClick={handleNow}
               >
                 {leftSubtitle}
               </p>
               <GlowingStarsTitle className="mx-auto" action={handleFirst}>
-                <p className="poetry-text">{toRoman(week)}</p>
+                <p className="poetry-text cursor-pointer">{toRoman(week)}</p>
               </GlowingStarsTitle>
               <p
-                className="whitespace-nowrap text-sm text-muted-foreground mr-3 md:mr-0"
+                className="whitespace-nowrap text-sm text-muted-foreground mr-3 md:mr-0 cursor-pointer"
                 onClick={handleNow}
               >
                 {rightSubtitle(week)}
@@ -119,6 +120,7 @@ const CantusWeek = () => {
           variant={"ghostLine"}
           size={"icon"}
           disabled={week === 52}
+          className="cursor-pointer"
         >
           <ArrowRight className="h-4 w-4" />
         </Button>
@@ -137,6 +139,7 @@ const CantusWeek = () => {
         <div className="poetry-text flex justify-center items-center mt-4 px-8 sm:px-12 md:px-12">
           <GlowingStarsDescription>
             <p className="text-xl leading-relaxed opacity-80 lg:opacity-85 dark:opacity-65 dark:sm:opacity-70 dark:md:opacity-75 dark:lg:opacity-85">
+              {/* opacty variation May need refining, or opening up to customization.  */}
               {cantusSections[week - 1].map((line, index) => (
                 <span key={index}>
                   {line}
