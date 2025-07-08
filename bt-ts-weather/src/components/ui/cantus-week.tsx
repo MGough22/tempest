@@ -139,7 +139,7 @@ const CantusWeek = () => {
         <div className="poetry-text-responsive flex justify-center items-center mt-4 px-8 sm:px-12 md:px-12">
           <GlowingStarsDescription>
             {/* <p className="text-xl leading-relaxed opacity-80 lg:opacity-85 dark:opacity-65 dark:sm:opacity-70 dark:md:opacity-75 dark:lg:opacity-85"> */}
-            <p className="text-xl leading-relaxed opacity-85 lg:opacity-100 dark:opacity-75 dark:sm:opacity-83 dark:lg:opacity-95">
+            <p className="text-xl leading-relaxed opacity-85 lg:opacity-100 dark:opacity-82 dark:sm:opacity-88 dark:lg:opacity-95">
               {/* opacty variation May need refining, or opening up to customization.  */}
               {cantusSections[week - 1].map((line, index) => (
                 <span key={index}>
