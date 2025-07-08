@@ -156,3 +156,14 @@
 .poetry-text p {
   font-family: "ParadigmLight", serif;
 }
+
+@media (min-width: 768px) {
+  .poetry-text-responsive {
+    font-family: "ParadigmLight", serif;
+  }
+}
+@media (max-width: 767px) {
+  .poetry-text-responsive {
+    font-family: "Paradigm", serif;
+  }
+}
