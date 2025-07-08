@@ -166,9 +166,11 @@ const CantusWeek = () => {
                           }`}
                         >
                           {showLineNumber && (
-                            <span className="text-sm text-muted-foreground">
-                              {lineCounter}
-                            </span>
+                            <>
+                              <span className="text-sm text-muted-foreground align-baseline relative top-[4px]">
+                                {lineCounter}
+                              </span>
+                            </>
                           )}
                         </div>
                       );
