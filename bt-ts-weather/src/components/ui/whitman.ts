@@ -7,6 +7,15 @@ export const cantusSections = [
     "I loafe and invite my soul,",
     "I lean and loafe at my ease observing a spear of summer grass.",
     "",
+    "My tongue, every atom of my blood, form'd from this soil, this air,",
+    "Born here of parents born here from parents the same, and their parents the same,",
+    "I, now thirty-seven years old in perfect health begin,",
+    "Hoping to cease not till death.",
+    "",
+    "Creeds and schools in abeyance,",
+    "Retiring back a while sufficed at what they are, but never forgotten,",
+    "I harbor for good or bad, I permit to speak at every hazard,",
+    "Nature without check with original energy.",
     "",
   ],
   [
@@ -1800,3 +1809,15 @@ export const cantusSections = [
     "I stop somewhere waiting for you.",
   ],
 ];
+
+export const lineNumberStartValue = (week: number) => {
+  const sectionIndex = week - 1;
+  let initialLineNumber = 1;
+  for (let i = 0; i < sectionIndex; i++) {
+    const withoutLineBreaks = cantusSections[i].filter(item => item !== "");
+    initialLineNumber += withoutLineBreaks.length;
+  }
+  return initialLineNumber;
+};
+
+// week = 2
