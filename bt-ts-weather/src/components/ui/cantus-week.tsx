@@ -7,16 +7,15 @@ import {
 } from "./glowing-stars";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "./button";
-import { WeekSelector } from "./week-selector";
+import { FULL_TEXT, WeekSelector } from "./week-selector";
 import { useRef, useEffect, useState } from "react";
 
 const weekNumber = getWeek(new Date());
 const currentDate = format(new Date(), "d MMMM yyyy");
 
 const CantusWeek = () => {
-  const [week, setWeek] = useState(weekNumber);
+  const [week, setWeek] = useState<number | "All">(weekNumber);
   const topElementRef = useRef<HTMLDivElement>(null);
-  console.log(lineNumberStartValue(week));
 
   const scrollToTop = () => {
     requestAnimationFrame(() => {
@@ -28,11 +27,11 @@ const CantusWeek = () => {
   };
 
   const handleNextWeek = () => {
-    setWeek(prevWeek => prevWeek + 1);
+    setWeek(prevWeek => Number(prevWeek) + 1);
     scrollToTop();
   };
   const handlePrevWeek = () => {
-    setWeek(prevWeek => prevWeek - 1);
+    setWeek(prevWeek => Number(prevWeek) - 1);
     scrollToTop();
   };
   const handleNow = () => {
@@ -42,13 +41,21 @@ const CantusWeek = () => {
   const [cantusIsVisible, setCantusIsVisible] = useState(false);
   const [lineNumbersAreVisible, setlineNumbersAreVisible] = useState(false);
 
-  const leftSubtitle = week === weekNumber ? "Current Week" : "Week Number";
+  const leftSubtitle =
+    week === weekNumber
+      ? "Current Week"
+      : week === FULL_TEXT
+      ? "W. Whitman"
+      : "Week Number";
 
-  const rightSubtitle = (targetWeek: number) => {
+  const rightSubtitle = (targetWeek: number | string) => {
+    if (targetWeek === FULL_TEXT) {
+      return currentDate;
+    }
     if (targetWeek === weekNumber) {
       return currentDate;
     } else {
-      const discrepancy = targetWeek - weekNumber;
+      const discrepancy = Number(targetWeek) - weekNumber;
       const alteredDate = add(new Date(), { days: 7 * discrepancy });
       return format(alteredDate, "d MMMM yyyy");
     }
@@ -84,7 +91,7 @@ const CantusWeek = () => {
           onClick={handlePrevWeek}
           variant={"ghostLine"}
           size={"icon"}
-          disabled={week === 1}
+          disabled={week === 1 || week === FULL_TEXT}
           className="cursor-pointer"
         >
           <ArrowLeft className="h-4 w-4" />
@@ -94,7 +101,7 @@ const CantusWeek = () => {
             <WeekSelector
               value={week.toString()}
               onChange={val => {
-                setWeek(parseInt(val));
+                setWeek(val === FULL_TEXT ? val : parseInt(val));
                 scrollToTop();
               }}
             />
@@ -107,7 +114,9 @@ const CantusWeek = () => {
                 {leftSubtitle}
               </p>
               <GlowingStarsTitle className="mx-auto" action={handleFirst}>
-                <p className="poetry-text cursor-pointer">{toRoman(week)}</p>
+                <p className="poetry-text cursor-pointer">
+                  {week === FULL_TEXT ? `CANTUS` : toRoman(week)}
+                </p>
               </GlowingStarsTitle>
               <p
                 className="whitespace-nowrap text-sm text-muted-foreground mr-3 md:mr-0 cursor-pointer"
@@ -122,7 +131,7 @@ const CantusWeek = () => {
           onClick={handleNextWeek}
           variant={"ghostLine"}
           size={"icon"}
-          disabled={week === 52}
+          disabled={week === 1 || week === FULL_TEXT}
           className="cursor-pointer"
         >
           <ArrowRight className="h-4 w-4" />
@@ -151,30 +160,31 @@ const CantusWeek = () => {
                 }
               >
                 {(() => {
-                  let lineCounter = lineNumberStartValue(week);
+                  let lineCounter = lineNumberStartValue(
+                    week === FULL_TEXT ? 1 : week
+                  );
                   let lastLineEmpty = true;
-                  return cantusSections[week - 1].map((line, index) => {
+
+                  const singleSection = (line: string, index: number) => {
                     const showLineNumber =
                       line !== "" && (index === 0 || lastLineEmpty);
-                    const margins = (isHidden = false) => {
-                      return (
-                        <div
-                          className={`min-w-[2rem] max-w-[6rem] flex justify-center items-center pr-2 relative ${
-                            isHidden && `invisible`
-                          } transition-opacity duration-[400ms] ease-in-out group-hover:opacity-100 ${
-                            lineNumbersAreVisible ? `opacity-100` : `opacity-0`
-                          }`}
-                        >
-                          {showLineNumber && (
-                            <>
-                              <span className="text-sm text-muted-foreground align-baseline relative top-[4px]">
-                                {lineCounter}
-                              </span>
-                            </>
-                          )}
-                        </div>
-                      );
-                    };
+
+                    const margins = (isHidden = false) => (
+                      <div
+                        className={`min-w-[2rem] max-w-[6rem] flex justify-center items-center pr-2 relative ${
+                          isHidden ? "invisible" : ""
+                        } transition-opacity duration-[400ms] ease-in-out group-hover:opacity-100 ${
+                          lineNumbersAreVisible ? "opacity-100" : "opacity-0"
+                        }`}
+                      >
+                        {showLineNumber && (
+                          <span className="text-sm text-muted-foreground align-baseline relative top-[4px]">
+                            {lineCounter}
+                          </span>
+                        )}
+                      </div>
+                    );
+
                     const element = (
                       <div key={index} className="flex items-start">
                         {margins()}
@@ -185,10 +195,38 @@ const CantusWeek = () => {
                         {margins(true)}
                       </div>
                     );
+
                     if (line !== "") lineCounter++;
                     lastLineEmpty = line === "";
+
                     return element;
-                  });
+                  };
+
+                  if (week !== FULL_TEXT) {
+                    return cantusSections[week - 1].map((line, index) => {
+                      return singleSection(line, index);
+                    });
+                  }
+
+                  if (week === FULL_TEXT) {
+                    return cantusSections.map((section, index) => {
+                      let sectionNumber = index;
+                      return section.map((line, index) => {
+                        return (
+                          <>
+                            {index === 0 && (
+                              <GlowingStarsTitle className="mx-auto">
+                                <p className="poetry-text">
+                                  {toRoman(sectionNumber + 1)}
+                                </p>
+                              </GlowingStarsTitle>
+                            )}
+                            {singleSection(line, index)}
+                          </>
+                        );
+                      });
+                    });
+                  }
                 })()}
               </div>
             </div>

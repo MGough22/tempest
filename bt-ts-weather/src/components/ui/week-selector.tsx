@@ -13,7 +13,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { Check, Section } from "lucide-react";
 
+export const FULL_TEXT = "All";
+
 const weeks = Array.from({ length: 52 }, (_, i) => (i + 1).toString());
+weeks.push(FULL_TEXT);
 
 export function WeekSelector({
   value,
