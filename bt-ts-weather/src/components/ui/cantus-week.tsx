@@ -140,9 +140,8 @@ const CantusWeek = () => {
           <GlowingStarsDescription>
             {/* <p className="text-xl leading-relaxed opacity-80 lg:opacity-85 dark:opacity-65 dark:sm:opacity-70 dark:md:opacity-75 dark:lg:opacity-85"> */}
             <p className="text-xl leading-relaxed opacity-85 lg:opacity-100 dark:opacity-82 dark:sm:opacity-88 dark:lg:opacity-95">
-              {/* opacty variation May need refining, or opening up to customization.  */}
               {cantusSections[week - 1].map((line, index) => (
-                <span key={index}>
+                <span key={index} className="poetry-line block">
                   {line}
                   <br />
                 </span>

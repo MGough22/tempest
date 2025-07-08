@@ -167,3 +167,9 @@
     font-family: "Paradigm", serif;
   }
 }
+
+.poetry-line {
+  display: block;
+  padding-left: 1rem;
+  text-indent: -1rem;
+}
