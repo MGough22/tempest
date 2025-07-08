@@ -57,7 +57,7 @@ export const GlowingStarsTitle = ({
     <h2
       onClick={action}
       className={cn(
-        `w-[300px] poetry-text text-2xl tracking-widest text-center`,
+        `w-[300px] poetry-text-bold text-2xl tracking-widest text-center`,
         className
       )}
     >

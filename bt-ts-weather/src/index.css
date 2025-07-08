@@ -141,6 +141,18 @@
   font-display: swap;
 }
 
-.poetry-text p {
+.poetry-text-bold p {
   font-family: "Paradigm", serif;
+}
+
+@font-face {
+  font-family: "ParadigmLight";
+  src: url("/fonts/ParadigmLight.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.poetry-text p {
+  font-family: "ParadigmLight", serif;
 }

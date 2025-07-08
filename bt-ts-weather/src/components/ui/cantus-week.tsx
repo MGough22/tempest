@@ -76,7 +76,7 @@ const CantusWeek = () => {
     searchvisible?: boolean;
   }) => {
     return (
-      <div className="flex justify-evenly items-end mt-2 opacity-90 transition-opacity hover:opacity-100">
+      <div className="flex justify-evenly items-end mt-2 transition-opacity duration-[400ms] ease-in-out hover:opacity-100 opacity-90">
         <Button
           onClick={handlePrevWeek}
           variant={"ghostLine"}
@@ -138,7 +138,8 @@ const CantusWeek = () => {
         <WeekSelectingIcons searchvisible={false} />
         <div className="poetry-text flex justify-center items-center mt-4 px-8 sm:px-12 md:px-12">
           <GlowingStarsDescription>
-            <p className="text-xl leading-relaxed opacity-80 lg:opacity-85 dark:opacity-65 dark:sm:opacity-70 dark:md:opacity-75 dark:lg:opacity-85">
+            {/* <p className="text-xl leading-relaxed opacity-80 lg:opacity-85 dark:opacity-65 dark:sm:opacity-70 dark:md:opacity-75 dark:lg:opacity-85"> */}
+            <p className="text-xl leading-relaxed opacity-90 lg:opacity-95 dark:opacity-80 dark:sm:opacity-85 dark:md:opacity-90 dark:lg:opacity-95">
               {/* opacty variation May need refining, or opening up to customization.  */}
               {cantusSections[week - 1].map((line, index) => (
                 <span key={index}>
