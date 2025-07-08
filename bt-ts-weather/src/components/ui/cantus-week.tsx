@@ -1,4 +1,4 @@
-import { cantusSections } from "./whitman";
+import { cantusSections, lineNumberStartValue } from "./whitman";
 import { getWeek, format, add } from "date-fns";
 import {
   GlowingStarsBackgroundCard,
@@ -16,6 +16,7 @@ const currentDate = format(new Date(), "d MMMM yyyy");
 const CantusWeek = () => {
   const [week, setWeek] = useState(weekNumber);
   const topElementRef = useRef<HTMLDivElement>(null);
+  console.log(lineNumberStartValue(week));
 
   const scrollToTop = () => {
     requestAnimationFrame(() => {
@@ -37,7 +38,9 @@ const CantusWeek = () => {
   const handleNow = () => {
     setWeek(weekNumber);
   };
+
   const [cantusIsVisible, setCantusIsVisible] = useState(false);
+  const [lineNumbersAreVisible, setlineNumbersAreVisible] = useState(false);
 
   const leftSubtitle = week === weekNumber ? "Current Week" : "Week Number";
 
@@ -136,17 +139,57 @@ const CantusWeek = () => {
     >
       <GlowingStarsBackgroundCard>
         <WeekSelectingIcons searchvisible={false} />
-        <div className="poetry-text-responsive flex justify-center items-center mt-4 px-8 sm:px-12 md:px-12">
+        <div className="poetry-text-responsive flex justify-center items-center mt-4">
           <GlowingStarsDescription>
-            {/* <p className="text-xl leading-relaxed opacity-80 lg:opacity-85 dark:opacity-65 dark:sm:opacity-70 dark:md:opacity-75 dark:lg:opacity-85"> */}
-            <p className="text-xl leading-relaxed opacity-85 lg:opacity-100 dark:opacity-82 dark:sm:opacity-88 dark:lg:opacity-95">
-              {cantusSections[week - 1].map((line, index) => (
-                <span key={index} className="poetry-line block">
-                  {line}
-                  <br />
-                </span>
-              ))}
-            </p>
+            <div className="text-xl leading-relaxed opacity-85 lg:opacity-100 dark:opacity-82 dark:sm:opacity-88 dark:lg:opacity-95">
+              <div
+                className="relative group"
+                onClick={() =>
+                  setlineNumbersAreVisible(
+                    !lineNumbersAreVisible ? true : false
+                  )
+                }
+              >
+                {(() => {
+                  let lineCounter = lineNumberStartValue(week);
+                  let lastLineEmpty = true;
+                  return cantusSections[week - 1].map((line, index) => {
+                    const showLineNumber =
+                      line !== "" && (index === 0 || lastLineEmpty);
+                    const margins = (isHidden = false) => {
+                      return (
+                        <div
+                          className={`min-w-[2rem] max-w-[6rem] flex justify-center items-center pr-2 relative ${
+                            isHidden && `invisible`
+                          } transition-opacity duration-[400ms] ease-in-out group-hover:opacity-100 ${
+                            lineNumbersAreVisible ? `opacity-100` : `opacity-0`
+                          }`}
+                        >
+                          {showLineNumber && (
+                            <span className="text-sm text-muted-foreground">
+                              {lineCounter}
+                            </span>
+                          )}
+                        </div>
+                      );
+                    };
+                    const element = (
+                      <div key={index} className="flex items-start">
+                        {margins()}
+                        <div className="poetry-line flex-1">
+                          {line}
+                          <br />
+                        </div>
+                        {margins(true)}
+                      </div>
+                    );
+                    if (line !== "") lineCounter++;
+                    lastLineEmpty = line === "";
+                    return element;
+                  });
+                })()}
+              </div>
+            </div>
           </GlowingStarsDescription>
         </div>
         <WeekSelectingIcons />
