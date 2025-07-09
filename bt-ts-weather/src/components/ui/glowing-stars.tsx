@@ -22,7 +22,7 @@ export const GlowingStarsBackgroundCard = ({
         setMouseEnter(false);
       }}
       className={cn(
-        "bg-card text-card-foreground w-full flex flex-col gap-6 rounded-xl border py-6 shadow-sm backdrop-blur",
+        "bg-card/25 w-full flex flex-col gap-6 rounded-xl border py-6 shadow-sm backdrop-blur",
         className
       )}
     >
