@@ -9,6 +9,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Button } from "./button";
 import { FULL_TEXT, WeekSelector } from "./week-selector";
 import { useRef, useEffect, useState } from "react";
+import { useInView } from "motion/react";
 
 const weekNumber = getWeek(new Date());
 const currentDate = format(new Date(), "d MMMM yyyy");
@@ -79,6 +80,32 @@ const CantusWeek = () => {
   }, []);
 
   // for scrolling from hidden leaf icon
+
+  type FadeInTitleProps = {
+    children: React.ReactNode;
+    once?: boolean;
+  };
+
+  const FadeInTitle = ({ children, once = false }: FadeInTitleProps) => {
+    const ref = useRef(null);
+    const isInView = useInView(ref, {
+      amount: "all",
+      once,
+    });
+
+    return (
+      <GlowingStarsTitle className="mx-auto">
+        <p
+          ref={ref}
+          className={`poetry-text transition-opacity duration-1500 ease-in-out ${
+            isInView ? "opacity-100" : "opacity-75"
+          }`}
+        >
+          {children}
+        </p>
+      </GlowingStarsTitle>
+    );
+  };
 
   const WeekSelectingIcons = ({
     searchvisible = true,
@@ -208,6 +235,31 @@ const CantusWeek = () => {
                     });
                   }
 
+                  // const FadeInTitle = ({
+                  //   children,
+                  // }: {
+                  //   children: React.ReactNode;
+                  // }) => {
+                  //   const ref = useRef(null);
+                  //   const isInView = useInView(ref, {
+                  //     amount: "all",
+                  //     once: false,
+                  //   });
+
+                  //   return (
+                  //     <GlowingStarsTitle className="mx-auto">
+                  //       <p
+                  //         ref={ref}
+                  //         className={`poetry-text transition-opacity duration-1500 ease-in-out ${
+                  //           isInView ? "opacity-100" : "opacity-65"
+                  //         }`}
+                  //       >
+                  //         {children}
+                  //       </p>
+                  //     </GlowingStarsTitle>
+                  //   );
+                  // };
+
                   if (week === FULL_TEXT) {
                     return cantusSections.map((section, index) => {
                       let sectionNumber = index;
@@ -215,11 +267,9 @@ const CantusWeek = () => {
                         return (
                           <>
                             {index === 0 && (
-                              <GlowingStarsTitle className="mx-auto">
-                                <p className="poetry-text">
-                                  {toRoman(sectionNumber + 1)}
-                                </p>
-                              </GlowingStarsTitle>
+                              <FadeInTitle>
+                                {toRoman(sectionNumber + 1)}
+                              </FadeInTitle>
                             )}
                             {singleSection(line, index)}
                           </>
