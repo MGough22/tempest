@@ -94,7 +94,14 @@ const CantusWeek = () => {
     });
 
     return (
-      <GlowingStarsTitle className="mx-auto">
+      <GlowingStarsTitle className="mx-auto flex items-center justify-center gap-1">
+        <span
+          className={`transition-opacity duration-2000 ease-in-out ${
+            isInView ? "opacity-50" : "opacity-0"
+          }`}
+        >
+          ·
+        </span>
         <p
           ref={ref}
           className={`poetry-text transition-opacity duration-1500 ease-in-out ${
@@ -103,6 +110,13 @@ const CantusWeek = () => {
         >
           {children}
         </p>
+        <span
+          className={`transition-opacity duration-2000 ease-in-out ${
+            isInView ? "opacity-50" : "opacity-0"
+          }`}
+        >
+          ·
+        </span>
       </GlowingStarsTitle>
     );
   };
@@ -192,7 +206,11 @@ const CantusWeek = () => {
                   );
                   let lastLineEmpty = true;
 
-                  const singleSection = (line: string, index: number) => {
+                  const singleSection = (
+                    line: string,
+                    index: number,
+                    left: boolean = true
+                  ) => {
                     const showLineNumber =
                       line !== "" && (index === 0 || lastLineEmpty);
 
@@ -214,12 +232,12 @@ const CantusWeek = () => {
 
                     const element = (
                       <div key={index} className="flex items-start">
-                        {margins()}
+                        {margins(!left)}
                         <div className="poetry-line flex-1">
                           {line}
                           <br />
                         </div>
-                        {margins(true)}
+                        {margins(left)}
                       </div>
                     );
 
@@ -235,34 +253,10 @@ const CantusWeek = () => {
                     });
                   }
 
-                  // const FadeInTitle = ({
-                  //   children,
-                  // }: {
-                  //   children: React.ReactNode;
-                  // }) => {
-                  //   const ref = useRef(null);
-                  //   const isInView = useInView(ref, {
-                  //     amount: "all",
-                  //     once: false,
-                  //   });
-
-                  //   return (
-                  //     <GlowingStarsTitle className="mx-auto">
-                  //       <p
-                  //         ref={ref}
-                  //         className={`poetry-text transition-opacity duration-1500 ease-in-out ${
-                  //           isInView ? "opacity-100" : "opacity-65"
-                  //         }`}
-                  //       >
-                  //         {children}
-                  //       </p>
-                  //     </GlowingStarsTitle>
-                  //   );
-                  // };
-
                   if (week === FULL_TEXT) {
                     return cantusSections.map((section, index) => {
                       let sectionNumber = index;
+                      const isSmallScreen = window.innerWidth < 768;
                       return section.map((line, index) => {
                         return (
                           <>
@@ -271,7 +265,7 @@ const CantusWeek = () => {
                                 {toRoman(sectionNumber + 1)}
                               </FadeInTitle>
                             )}
-                            {singleSection(line, index)}
+                            {singleSection(line, index, isSmallScreen)}
                           </>
                         );
                       });
