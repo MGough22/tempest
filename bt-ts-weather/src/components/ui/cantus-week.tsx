@@ -94,9 +94,13 @@ const CantusWeek = () => {
     });
 
     return (
-      <GlowingStarsTitle className="mx-auto flex items-center justify-center gap-1">
+      <GlowingStarsTitle
+        className={`mx-auto flex items-center justify-center transition-[gap] duration-1000 ease-in-out ${
+          isInView ? "gap-2" : "gap-0"
+        }`}
+      >
         <span
-          className={`transition-opacity duration-2000 ease-in-out ${
+          className={`transition-opacity duration-1000 ease-in-out ${
             isInView ? "opacity-50" : "opacity-0"
           }`}
         >
@@ -105,13 +109,13 @@ const CantusWeek = () => {
         <p
           ref={ref}
           className={`poetry-text transition-opacity duration-1500 ease-in-out ${
-            isInView ? "opacity-100" : "opacity-75"
+            isInView ? "opacity-100" : "opacity-65"
           }`}
         >
           {children}
         </p>
         <span
-          className={`transition-opacity duration-2000 ease-in-out ${
+          className={`transition-opacity duration-1000 ease-in-out ${
             isInView ? "opacity-50" : "opacity-0"
           }`}
         >
