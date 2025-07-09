@@ -1,4 +1,8 @@
-import { cantusSections1892, lineNumberStartValue } from "./whitman";
+import {
+  cantusSections1855,
+  cantusSections1892,
+  lineNumberStartValue,
+} from "./whitman";
 import { getWeek, format, add } from "date-fns";
 import {
   GlowingStarsBackgroundCard,
@@ -16,6 +20,7 @@ const currentDate = format(new Date(), "d MMMM yyyy");
 
 const CantusWeek = () => {
   const [edition, setEdition] = useState<string[][]>(cantusSections1892);
+  const [editionYear, setEditionYear] = useState<number>(1892);
   const [week, setWeek] = useState<number | "All">(weekNumber);
   const topElementRef = useRef<HTMLDivElement>(null);
 
@@ -63,8 +68,10 @@ const CantusWeek = () => {
     }
   };
 
-  const handleFirst = () => {
-    setWeek(1);
+  const handleEditionChange = () => {
+    const isIt1892 = editionYear === 1892;
+    setEdition(isIt1892 ? cantusSections1855 : cantusSections1892);
+    setEditionYear(isIt1892 ? 1855 : 1892);
   };
 
   // for scrolling from hidden leaf icon
@@ -155,7 +162,10 @@ const CantusWeek = () => {
               >
                 {leftSubtitle}
               </p>
-              <GlowingStarsTitle className="mx-auto" action={handleFirst}>
+              <GlowingStarsTitle
+                className="mx-auto"
+                action={handleEditionChange}
+              >
                 <p className="poetry-text cursor-pointer">
                   {week === FULL_TEXT ? `CANTUS` : toRoman(week)}
                 </p>
@@ -173,7 +183,7 @@ const CantusWeek = () => {
           onClick={handleNextWeek}
           variant={"ghostLine"}
           size={"icon"}
-          disabled={week === 1 || week === FULL_TEXT}
+          disabled={week === FULL_TEXT || week === edition.length}
           className="cursor-pointer"
         >
           <ArrowRight className="h-4 w-4" />
@@ -208,7 +218,7 @@ const CantusWeek = () => {
                   );
                   let lastLineEmpty = true;
 
-                  const singleSection = (
+                  const singleLine = (
                     line: string,
                     index: number,
                     left: boolean = true
@@ -232,26 +242,35 @@ const CantusWeek = () => {
                       </div>
                     );
 
-                    const element = (
-                      <div key={index} className="flex items-start">
-                        {margins(!left)}
-                        <div className="poetry-line flex-1">
-                          {line}
-                          <br />
+                    const renderedLine = (isCeleber = false) => {
+                      // TODO
+                      // if isCeleber (which should only be applied within the rendering maps)
+                      // logic being : const celeber = (year === 1855 && sectionNumber === 0 && (week === 0 || week === "All") && index == 0)
+                      // then split the line into "I celebrate" + "myself"
+                      // wrap in a div which styles the two in a single span
+                      // and style the first part with  tracking-widest
+                      // apply in the in both (week === FULL_TEXT) & logic for week = 1 & 1855 single section, return blocks.
+                      return (
+                        <div key={index} className="flex items-start">
+                          {margins(!left)}
+                          <div className="poetry-line flex-1">
+                            <span>{line}</span>
+                            <br />
+                          </div>
+                          {margins(left)}
                         </div>
-                        {margins(left)}
-                      </div>
-                    );
+                      );
+                    };
 
                     if (line !== "") lineCounter++;
                     lastLineEmpty = line === "";
 
-                    return element;
+                    return renderedLine();
                   };
 
                   if (week !== FULL_TEXT) {
                     return edition[week - 1].map((line, index) => {
-                      return singleSection(line, index);
+                      return singleLine(line, index);
                     });
                   }
 
@@ -267,7 +286,7 @@ const CantusWeek = () => {
                                 {toRoman(sectionNumber + 1)}
                               </FadeInTitle>
                             )}
-                            {singleSection(line, index, isSmallScreen)}
+                            {singleLine(line, index, isSmallScreen)}
                           </>
                         );
                       });
