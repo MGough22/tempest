@@ -1,4 +1,4 @@
-import { cantusSections, lineNumberStartValue } from "./whitman";
+import { cantusSections1892, lineNumberStartValue } from "./whitman";
 import { getWeek, format, add } from "date-fns";
 import {
   GlowingStarsBackgroundCard,
@@ -15,6 +15,7 @@ const weekNumber = getWeek(new Date());
 const currentDate = format(new Date(), "d MMMM yyyy");
 
 const CantusWeek = () => {
+  const [edition, setEdition] = useState<string[][]>(cantusSections1892);
   const [week, setWeek] = useState<number | "All">(weekNumber);
   const topElementRef = useRef<HTMLDivElement>(null);
 
@@ -202,7 +203,8 @@ const CantusWeek = () => {
               >
                 {(() => {
                   let lineCounter = lineNumberStartValue(
-                    week === FULL_TEXT ? 1 : week
+                    week === FULL_TEXT ? 1 : week,
+                    edition
                   );
                   let lastLineEmpty = true;
 
@@ -248,13 +250,13 @@ const CantusWeek = () => {
                   };
 
                   if (week !== FULL_TEXT) {
-                    return cantusSections[week - 1].map((line, index) => {
+                    return edition[week - 1].map((line, index) => {
                       return singleSection(line, index);
                     });
                   }
 
                   if (week === FULL_TEXT) {
-                    return cantusSections.map((section, index) => {
+                    return edition.map((section, index) => {
                       let sectionNumber = index;
                       const isSmallScreen = window.innerWidth < 768;
                       return section.map((line, index) => {

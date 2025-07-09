@@ -45,7 +45,7 @@ export function WeekSelector({
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className=" w-[300px] p-0 bg">
+      <PopoverContent className=" w-[300px] p-0 bg/25">
         <Command>
           <CommandInput placeholder="Search week..." />
           <CommandList>

@@ -1,4 +1,4 @@
-export const cantusSections = [
+export const cantusSections1892 = [
   [
     "I celebrate myself, and sing myself,",
     "And what I assume you shall assume,",
@@ -1810,14 +1810,12 @@ export const cantusSections = [
   ],
 ];
 
-export const lineNumberStartValue = (week: number) => {
+export const lineNumberStartValue = (week: number, edition: string[][]) => {
   const sectionIndex = week - 1;
   let initialLineNumber = 1;
   for (let i = 0; i < sectionIndex; i++) {
-    const withoutLineBreaks = cantusSections[i].filter(item => item !== "");
+    const withoutLineBreaks = edition[i].filter(item => item !== "");
     initialLineNumber += withoutLineBreaks.length;
   }
   return initialLineNumber;
 };
-
-// week = 2
