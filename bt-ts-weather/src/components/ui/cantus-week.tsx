@@ -102,7 +102,10 @@ const CantusWeek = () => {
     });
 
     return (
-      <GlowingStarsTitle className="mx-auto flex items-center justify-center gap-2">
+      <GlowingStarsTitle
+        className="mx-auto flex items-center justify-center gap-2"
+        // action={handleEditionChange} TODO later if scroll anchoring feels natural on mutating texts.
+      >
         <span
           className={`transition-opacity duration-2000 ease-in-out ${
             isInView ? "opacity-50" : "opacity-0"
@@ -221,7 +224,8 @@ const CantusWeek = () => {
                   const singleLine = (
                     line: string,
                     index: number,
-                    left: boolean = true
+                    left: boolean = true,
+                    isCeleber: boolean = false
                   ) => {
                     const showLineNumber =
                       line !== "" && (index === 0 || lastLineEmpty);
@@ -242,19 +246,27 @@ const CantusWeek = () => {
                       </div>
                     );
 
-                    const renderedLine = (isCeleber = false) => {
-                      // TODO
-                      // if isCeleber (which should only be applied within the rendering maps)
-                      // logic being : const celeber = (year === 1855 && sectionNumber === 0 && (week === 0 || week === "All") && index == 0)
-                      // then split the line into "I celebrate" + "myself"
-                      // wrap in a div which styles the two in a single span
-                      // and style the first part with  tracking-widest
-                      // apply in the in both (week === FULL_TEXT) & logic for week = 1 & 1855 single section, return blocks.
+                    const renderedLine = () => {
+                      let tracked, untracked;
+                      if (isCeleber) {
+                        const splitIncipit1855Index = line.indexOf("myself");
+                        tracked = line.slice(0, splitIncipit1855Index);
+                        untracked = line.slice(splitIncipit1855Index);
+                      }
                       return (
                         <div key={index} className="flex items-start">
                           {margins(!left)}
                           <div className="poetry-line flex-1">
-                            <span>{line}</span>
+                            {!isCeleber ? (
+                              <span>{line}</span>
+                            ) : (
+                              <span>
+                                <span className="tracking-widest">
+                                  {tracked}
+                                </span>
+                                <span>{untracked}</span>
+                              </span>
+                            )}
                             <br />
                           </div>
                           {margins(left)}
@@ -262,21 +274,28 @@ const CantusWeek = () => {
                       );
                     };
 
+                    const element = renderedLine();
+
                     if (line !== "") lineCounter++;
                     lastLineEmpty = line === "";
 
-                    return renderedLine();
+                    return element;
                   };
 
                   if (week !== FULL_TEXT) {
                     return edition[week - 1].map((line, index) => {
-                      return singleLine(line, index);
+                      return singleLine(
+                        line,
+                        index,
+                        true,
+                        line === cantusSections1855[0][0]
+                      );
                     });
                   }
 
                   if (week === FULL_TEXT) {
                     return edition.map((section, index) => {
-                      let sectionNumber = index;
+                      const sectionNumber = index;
                       const isSmallScreen = window.innerWidth < 768;
                       return section.map((line, index) => {
                         return (
@@ -286,7 +305,12 @@ const CantusWeek = () => {
                                 {toRoman(sectionNumber + 1)}
                               </FadeInTitle>
                             )}
-                            {singleLine(line, index, isSmallScreen)}
+                            {singleLine(
+                              line,
+                              index,
+                              isSmallScreen,
+                              line === cantusSections1855[0][0]
+                            )}
                           </>
                         );
                       });
