@@ -11,16 +11,43 @@ export const GlowingStarsBackgroundCard = ({
   className?: string;
   children?: React.ReactNode;
 }) => {
+  const isTouch = "ontouchstart" in window;
+  const [isClicked, setIsClicked] = useState(false);
   const [mouseEnter, setMouseEnter] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const maxHoveredAnimationDuration = 8000;
 
   return (
     <div
-      onMouseEnter={() => {
-        setMouseEnter(true);
-      }}
+      onMouseEnter={
+        !isTouch
+          ? () => {
+              setMouseEnter(true);
+              if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+              }
+              timeoutRef.current = setTimeout(() => {
+                setMouseEnter(false);
+              }, maxHoveredAnimationDuration);
+            }
+          : undefined
+      }
       onMouseLeave={() => {
         setMouseEnter(false);
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+          timeoutRef.current = null;
+        }
       }}
+      onClick={
+        isTouch
+          ? () => {
+              setIsClicked(!isClicked);
+              setMouseEnter(isClicked);
+            }
+          : undefined
+      }
       className={cn(
         "bg-card/25 w-full flex flex-col gap-6 rounded-xl border py-6 shadow-sm backdrop-blur",
         className
@@ -65,10 +92,10 @@ export const GlowingStarsTitle = ({
     </h2>
   );
 };
-
 export const Illustration = ({ mouseEnter }: { mouseEnter: boolean }) => {
   const stars = 108;
   const columns = 18;
+  // const isTouch = "ontouchstart" in window;
 
   const [glowingStars, setGlowingStars] = useState<number[]>([]);
 
@@ -76,7 +103,7 @@ export const Illustration = ({ mouseEnter }: { mouseEnter: boolean }) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      highlightedStars.current = Array.from({ length: 5 }, () =>
+      highlightedStars.current = Array.from({ length: 7 }, () =>
         Math.floor(Math.random() * stars)
       );
       setGlowingStars([...highlightedStars.current]);
