@@ -14,9 +14,11 @@ export const GlowingStarsBackgroundCard = ({
   const isTouch = "ontouchstart" in window;
   const [isClicked, setIsClicked] = useState(false);
   const [mouseEnter, setMouseEnter] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const maxHoveredAnimationDuration = 8000;
+  const maxHoveredAnimationDuration = 60000;
+  const maxClickedAnimationDuration = 15000;
 
   return (
     <div
@@ -24,10 +26,10 @@ export const GlowingStarsBackgroundCard = ({
         !isTouch
           ? () => {
               setMouseEnter(true);
-              if (timeoutRef.current) {
-                clearTimeout(timeoutRef.current);
+              if (hoverTimeoutRef.current) {
+                clearTimeout(hoverTimeoutRef.current);
               }
-              timeoutRef.current = setTimeout(() => {
+              hoverTimeoutRef.current = setTimeout(() => {
                 setMouseEnter(false);
               }, maxHoveredAnimationDuration);
             }
@@ -35,15 +37,28 @@ export const GlowingStarsBackgroundCard = ({
       }
       onMouseLeave={() => {
         setMouseEnter(false);
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current);
-          timeoutRef.current = null;
+        if (hoverTimeoutRef.current) {
+          clearTimeout(hoverTimeoutRef.current);
+          hoverTimeoutRef.current = null;
         }
       }}
       onClick={
         isTouch
           ? () => {
               setIsClicked(!isClicked);
+              if (isClicked) {
+                if (clickTimeoutRef.current) {
+                  clearTimeout(clickTimeoutRef.current);
+                }
+                clickTimeoutRef.current = setTimeout(() => {
+                  setMouseEnter(false);
+                }, maxClickedAnimationDuration);
+              } else {
+                if (hoverTimeoutRef.current) {
+                  clearTimeout(hoverTimeoutRef.current);
+                  hoverTimeoutRef.current = null;
+                }
+              }
               setMouseEnter(isClicked);
             }
           : undefined
@@ -95,7 +110,6 @@ export const GlowingStarsTitle = ({
 export const Illustration = ({ mouseEnter }: { mouseEnter: boolean }) => {
   const stars = 108;
   const columns = 18;
-  // const isTouch = "ontouchstart" in window;
 
   const [glowingStars, setGlowingStars] = useState<number[]>([]);
 
