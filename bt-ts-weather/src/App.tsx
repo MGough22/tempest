@@ -6,6 +6,7 @@ import WeatherDashboard from "./pages/weather-dashboard";
 import PlacePage from "./pages/place";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BackgroundBeams } from "./components/ui/background-beams";
+import { Analytics } from "@vercel/analytics/react";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -30,6 +31,7 @@ function App() {
                 <Route path="/" element={<WeatherDashboard />} />
                 <Route path="/place/:placeName" element={<PlacePage />} />
               </Routes>
+              <Analytics />
             </Layout>
           </ThemeProvider>
         </BrowserRouter>
