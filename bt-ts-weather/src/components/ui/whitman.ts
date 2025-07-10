@@ -1809,6 +1809,8 @@ export const cantusSections1892 = [
   ],
 ];
 
+// See comments for silent corrections to typographical errors in the 1855 printing.
+
 export const cantusSections1855 = [
   [
     "I CELEBRATE myself,",
@@ -2231,7 +2233,7 @@ export const cantusSections1855 = [
     "The coon-seekers go now through the regions of the Red river, or through those drained by the Tennessee, or through those of the Arkansas,",
     "The torches shine in the dark that hangs on the Chattahoochee or Altamahaw;",
     "Patriarchs sit at supper with sons and grandsons and great grandsons around them,",
-    "In walls of abode, in canvass tents, rest hunters and trappers after their day's sport.",
+    "In walls of adobe, in canvass tents, rest hunters and trappers after their day's sport.", // abode -> adobe
     "The city sleeps and the country sleeps,",
     "The living sleep for their time . . . . the dead sleep for their time,",
     "The old husband sleeps by his wife and the young husband sleeps by his wife;",
@@ -3604,9 +3606,9 @@ export const cantusSections1855 = [
     "But I shall be good health to you nevertheless,",
     "And filter and fibre your blood.",
     "",
-    "Failing to fetch me me at first keep encouraged,",
+    "Failing to fetch me at first keep encouraged,", // me me -> me
     "Missing me one place search another,",
-    "I stop some where waiting for you",
+    "I stop some where waiting for you", // Whether the absence of a final period is erroneous or not is unknown.
   ],
 ];
 
