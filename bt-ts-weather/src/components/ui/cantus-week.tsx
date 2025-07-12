@@ -246,8 +246,15 @@ const CantusWeek = () => {
                       </div>
                     );
 
+                    const preserveElliptics = (text: string) => {
+                      return text.replace(/(\. ?){2,}/g, match =>
+                        match.replace(/ /g, "\u00A0")
+                      );
+                    };
+
                     const renderedLine = () => {
-                      let tracked, untracked;
+                      let [tracked, untracked]: [string, string] = ["", ""];
+                      // destrctured initialisation necessary for types, because type-checks in the eliptic-preserving uitilty are independant of its conditional existence in practice.
                       if (isCeleber) {
                         const splitIncipit1855Index = line.indexOf("myself");
                         tracked = line.slice(0, splitIncipit1855Index);
@@ -258,13 +265,13 @@ const CantusWeek = () => {
                           {margins(!left)}
                           <div className="poetry-line flex-1">
                             {!isCeleber ? (
-                              <span>{line}</span>
+                              <span>{preserveElliptics(line)}</span>
                             ) : (
                               <span>
                                 <span className="tracking-widest">
-                                  {tracked}
+                                  {preserveElliptics(tracked)}
                                 </span>
-                                <span>{untracked}</span>
+                                <span>{preserveElliptics(untracked)}</span>
                               </span>
                             )}
                             <br />
