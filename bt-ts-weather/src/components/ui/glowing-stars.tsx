@@ -17,8 +17,46 @@ export const GlowingStarsBackgroundCard = ({
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  const gateRef = useRef(false);
+  const gateTimer = useRef<NodeJS.Timeout>(null);
+
   const maxHoveredAnimationDuration = 60000;
   const maxClickedAnimationDuration = 15000;
+  const animationMoratorium = 7000;
+
+  const handleTouchClick = (e: React.MouseEvent) => {
+    const fromGated = (e.target as HTMLElement).closest('[data-gate="true"]');
+
+    const normalBehaviour = () => {
+      setIsClicked(!isClicked);
+      if (isClicked) {
+        clickTimeoutRef.current && clearTimeout(clickTimeoutRef.current);
+        clickTimeoutRef.current = setTimeout(() => {
+          setMouseEnter(false);
+        }, maxClickedAnimationDuration);
+      } else {
+        if (hoverTimeoutRef.current) {
+          clearTimeout(hoverTimeoutRef.current);
+          hoverTimeoutRef.current = null;
+        }
+      }
+      setMouseEnter(isClicked);
+    };
+
+    // logic to limit click-aninmation-interaction for >1 clicks on specfied elements within a 7 second window
+    if (fromGated) {
+      if (gateRef.current) {
+        return;
+      }
+      normalBehaviour();
+      gateRef.current = true;
+      gateTimer.current = setTimeout(() => {
+        gateRef.current = false;
+      }, animationMoratorium);
+    } else {
+      normalBehaviour();
+    }
+  };
 
   return (
     <div
@@ -42,27 +80,7 @@ export const GlowingStarsBackgroundCard = ({
           hoverTimeoutRef.current = null;
         }
       }}
-      onClick={
-        isTouch
-          ? () => {
-              setIsClicked(!isClicked);
-              if (isClicked) {
-                if (clickTimeoutRef.current) {
-                  clearTimeout(clickTimeoutRef.current);
-                }
-                clickTimeoutRef.current = setTimeout(() => {
-                  setMouseEnter(false);
-                }, maxClickedAnimationDuration);
-              } else {
-                if (hoverTimeoutRef.current) {
-                  clearTimeout(hoverTimeoutRef.current);
-                  hoverTimeoutRef.current = null;
-                }
-              }
-              setMouseEnter(isClicked);
-            }
-          : undefined
-      }
+      onClick={isTouch ? handleTouchClick : undefined}
       className={cn(
         "bg-card/25 w-full flex flex-col gap-6 rounded-xl border py-6 shadow-sm backdrop-blur",
         className

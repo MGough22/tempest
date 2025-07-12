@@ -202,7 +202,9 @@ const CantusWeek = () => {
       }`}
     >
       <GlowingStarsBackgroundCard>
-        <WeekSelectingIcons searchvisible={false} />
+        <div data-gate="true">
+          <WeekSelectingIcons searchvisible={false} />
+        </div>
         <div className="poetry-text-responsive flex justify-center items-center mt-4">
           <GlowingStarsDescription>
             <div className="text-xl leading-relaxed opacity-85 lg:opacity-100 dark:opacity-82 dark:sm:opacity-88 dark:lg:opacity-95">
