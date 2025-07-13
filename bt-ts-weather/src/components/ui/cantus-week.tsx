@@ -74,8 +74,6 @@ const CantusWeek = () => {
     setEditionYear(isIt1892 ? 1855 : 1892);
   };
 
-  // for scrolling from hidden leaf icon
-
   useEffect(() => {
     const handleScrollToCantus = () => {
       setCantusIsVisible(true);
@@ -86,8 +84,6 @@ const CantusWeek = () => {
     return () =>
       window.removeEventListener("scrollToCantus", handleScrollToCantus);
   }, []);
-
-  // for scrolling from hidden leaf icon
 
   type FadeInTitleProps = {
     children: React.ReactNode;
@@ -239,6 +235,7 @@ const CantusWeek = () => {
                         } transition-opacity duration-[400ms] ease-in-out group-hover:opacity-100 ${
                           lineNumbersAreVisible ? "opacity-100" : "opacity-0"
                         }`}
+                        style={{ willChange: "opacity" }}
                       >
                         {showLineNumber && (
                           <span className="text-sm text-muted-foreground align-baseline relative top-[4px]">
@@ -254,24 +251,108 @@ const CantusWeek = () => {
                       );
                     };
 
+                    const applyDropCap = (
+                      text: string,
+                      apply: boolean,
+                      index: number
+                    ) => {
+                      if (
+                        !apply ||
+                        !text.trim() ||
+                        text[0] === "(" ||
+                        text.includes("*") // TODO add * to source text lines to exempt from this styling.
+                      )
+                        return text;
+
+                      const firstVisibleIndex = text.search(/\S/);
+                      const firstLetter = text[firstVisibleIndex];
+                      const before = text.slice(0, firstVisibleIndex);
+                      const after = text.slice(firstVisibleIndex + 1);
+
+                      const dynamicCapSize =
+                        index === 0
+                          ? "text-5xl"
+                          : index < 6
+                          ? "text-4xl"
+                          : "text-3xl";
+
+                      const dynamicMarginBottom =
+                        index === 0
+                          ? "-1.5rem"
+                          : index < 6
+                          ? "-1rem"
+                          : "-0.5rem";
+
+                      const dynamicMarginRight =
+                        index === 0 ? "mr-5" : index < 6 ? "mr-4.5" : "mr-4";
+
+                      return (
+                        <>
+                          {before}
+                          {/* opacity-50 => 80 depending on view. with an intial  */}
+                          {/* the shadowing to simulate thickness across broswers behaved poorly on safari due to a forced re-paint tied with the opacity/hovers of line numbers, hence the willChange in their rendering*/}
+                          <span
+                            className={`drop-cap 
+                              ${dynamicCapSize} 
+                                [text-shadow:0_0_0.5px_currentColor] float-left leading-[0.8] ${dynamicMarginRight} mt-[2px] md:opacity-65 opacity-80 md:dark:opacity-75 dark:opacity-72`}
+                            style={{
+                              marginBottom: dynamicMarginBottom,
+                            }}
+                          >
+                            {firstLetter}
+                          </span>
+                          {after}
+                        </>
+                      );
+                    };
+
                     const renderedLine = () => {
                       let [tracked, untracked]: [string, string] = ["", ""];
-                      // destrctured initialisation necessary for types, because type-checks in the eliptic-preserving uitilty are independant of its conditional existence in practice.
                       if (isCeleber) {
                         const splitIncipit1855Index = line.indexOf("myself");
                         tracked = line.slice(0, splitIncipit1855Index);
                         untracked = line.slice(splitIncipit1855Index);
                       }
+
+                      console.log("renderedLineIndex: ", index);
+                      console.log("its first letter: ", line[0]);
+                      console.log("line: ", line);
+
+                      const getIndentClass = () => {
+                        if (index === 1) return "pl-12";
+                        if (index > 1 && index <= 6) return "pl-8";
+                        if (index > 6) return "pl-6";
+                        return "";
+                      };
+
+                      const shouldIndent =
+                        (index === 1 || index === 2) && index > 0;
+
                       return (
                         <div key={index} className="flex items-start">
                           {margins(!left)}
-                          <div className="poetry-line flex-1">
+                          {/* <div className="poetry-line flex-1"> */}
+                          <div
+                            className={`poetry-line flex-1 ${
+                              shouldIndent ? getIndentClass() : ""
+                            }`}
+                          >
                             {!isCeleber ? (
-                              <span>{preserveElliptics(line)}</span>
+                              <span>
+                                {applyDropCap(
+                                  preserveElliptics(line),
+                                  showLineNumber,
+                                  index
+                                )}
+                              </span>
                             ) : (
                               <span>
                                 <span className="tracking-widest">
-                                  {preserveElliptics(tracked)}
+                                  {applyDropCap(
+                                    preserveElliptics(tracked),
+                                    showLineNumber,
+                                    index
+                                  )}
                                 </span>
                                 <span>{preserveElliptics(untracked)}</span>
                               </span>

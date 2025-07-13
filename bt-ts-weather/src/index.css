@@ -173,3 +173,21 @@
   padding-left: 1rem;
   text-indent: -1rem;
 }
+
+.drop-cap {
+  font-family: "ParadigmLight", serif;
+}
+
+/* .text-outline-thinner {
+  -webkit-text-stroke: 0.5px;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-outline-thin {
+  -webkit-text-stroke: 1px;
+  -webkit-text-fill-color: transparent;
+}
+.text-outline-thick {
+  -webkit-text-stroke: 2px;
+  -webkit-text-fill-color: transparent;
+} */
