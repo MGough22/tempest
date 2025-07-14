@@ -14,6 +14,7 @@ import { Button } from "./button";
 import { FULL_TEXT, WeekSelector } from "./week-selector";
 import { useRef, useEffect, useState } from "react";
 import { useInView } from "motion/react";
+import { useTheme } from "@/context/theme-provider";
 
 const weekNumber = getWeek(new Date());
 const currentDate = format(new Date(), "d MMMM yyyy");
@@ -24,6 +25,51 @@ const CantusWeek = () => {
   const [week, setWeek] = useState<number | "All">(weekNumber);
   const [textDecor, setTextDecor] = useState(true);
   const topElementRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
+  interface DropCapProps {
+    letter: string;
+    enabled: boolean;
+    className?: string;
+    style?: React.CSSProperties;
+  }
+
+  const DropCap: React.FC<DropCapProps> = ({
+    letter,
+    enabled,
+    className = "",
+    style = {},
+  }) => {
+    const [visible, setVisible] = useState(false);
+
+    useEffect(() => {
+      requestAnimationFrame(() => setVisible(enabled));
+    }, [enabled]);
+
+    // parameters prior to animating:
+    // md:opacity-69 opacity-84 md:dark:opacity-81 dark:opacity-78
+    // the shadowing to simulate thickness across broswers behaved poorly on safari due to a forced re-paint tied with the opacity/hovers of line numbers, hence the willChange in their rendering
+    // prior to brightening: md:opacity-65 opacity-80 md:dark:opacity-75 dark:opacity-72
+
+    return (
+      <span
+        className={`
+        drop-cap
+        transition-opacity
+        duration-1000
+        ease-in-out
+        ${className}
+      `}
+        style={{
+          opacity: visible && isDark ? 1 : visible && !isDark ? 0.8 : 0,
+          ...style,
+        }}
+      >
+        {letter}
+      </span>
+    );
+  };
 
   const scrollToTop = () => {
     requestAnimationFrame(() => {
@@ -310,19 +356,13 @@ const CantusWeek = () => {
                       return (
                         <>
                           {before}
-                          {/* TODO opacity-50 => 80 depending on view. with an intial  */}
-                          {/* the shadowing to simulate thickness across broswers behaved poorly on safari due to a forced re-paint tied with the opacity/hovers of line numbers, hence the willChange in their rendering*/}
-                          {/* prior to brightening: md:opacity-65 opacity-80 md:dark:opacity-75 dark:opacity-72 */}
-                          <span
-                            className={`drop-cap 
-                              ${dynamicCapSize} 
-                                [text-shadow:0_0_0.5px_currentColor] float-left leading-[0.8] ${dynamicMarginRight} mt-[2px] md:opacity-69 opacity-84 md:dark:opacity-81 dark:opacity-78`}
-                            style={{
-                              marginBottom: dynamicMarginBottom,
-                            }}
-                          >
-                            {firstLetter}
-                          </span>
+                          <DropCap
+                            letter={firstLetter}
+                            enabled={showLineNumber && textDecor}
+                            className={`${dynamicCapSize} 
+                            [text-shadow:0_0_0.5px_currentColor] float-left leading-[0.8] ${dynamicMarginRight} mt-[2px] md:opacity-69 opacity-84 md:dark:opacity-81 dark:opacity-78`}
+                            style={{ marginBottom: dynamicMarginBottom }}
+                          />
                           {after}
                         </>
                       );
