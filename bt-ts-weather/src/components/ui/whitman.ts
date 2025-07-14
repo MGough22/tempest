@@ -7,7 +7,7 @@ export const cantusSections1892 = [
     "I loafe and invite my soul,",
     "I lean and loafe at my ease observing a spear of summer grass.",
     "",
-    "*My tongue, every atom of my blood, form'd from this soil, this air,",
+    "My tongue, every atom of my blood, form'd from this soil, this air,",
     "Born here of parents born here from parents the same, and their parents the same,",
     "I, now thirty-seven years old in perfect health begin,",
     "Hoping to cease not till death.",
@@ -1811,7 +1811,7 @@ export const cantusSections1892 = [
 
 // See comments for silent corrections to typographical errors in the 1855 printing.
 // Formatting: Various dropcaps are rendered automatically when selected in the app,
-// but in specific cases an "•" or "?" at the zeroth index of a line in the sourcetexts will disable or enlarge it's dropcap respectively.
+// but in specific cases an "*" or "?" at the zeroth index of a line in the sourcetexts will disable or enlarge it's dropcap respectively.
 
 export const cantusSections1855 = [
   [
