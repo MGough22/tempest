@@ -325,6 +325,8 @@ const CantusWeek = () => {
 
                       const firstVisibleIndex = deFormattedText.search(/\S/);
                       const firstLetter = deFormattedText[firstVisibleIndex];
+                      const hasSpaceAfterFirstVisible =
+                        text[firstVisibleIndex + 1] === " ";
                       const before = deFormattedText.slice(
                         0,
                         firstVisibleIndex
@@ -332,6 +334,8 @@ const CantusWeek = () => {
                       const after = deFormattedText.slice(
                         firstVisibleIndex + 1
                       );
+
+                      // TODO: develop more general solution for the problem of spacing difference when index > 6 && firstLetter === "I"
 
                       const dynamicCapSize =
                         index === 0 || line[0] === "?"
@@ -352,6 +356,8 @@ const CantusWeek = () => {
                           ? "mr-5"
                           : index < 6
                           ? "mr-4.5"
+                          : !hasSpaceAfterFirstVisible && firstLetter === "I"
+                          ? "mr-2.5"
                           : "mr-4";
 
                       return (
@@ -364,7 +370,11 @@ const CantusWeek = () => {
                             [text-shadow:0_0_0.5px_currentColor] float-left leading-[0.8] ${dynamicMarginRight} mt-[2px] md:opacity-69 opacity-84 md:dark:opacity-81 dark:opacity-78`}
                             style={{ marginBottom: dynamicMarginBottom }}
                           />
-                          {after}
+                          {hasSpaceAfterFirstVisible &&
+                          index !== 0 &&
+                          firstLetter !== "I"
+                            ? "\u00A0" + after
+                            : after}
                         </>
                       );
                     };
