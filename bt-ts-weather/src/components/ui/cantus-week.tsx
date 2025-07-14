@@ -22,6 +22,7 @@ const CantusWeek = () => {
   const [edition, setEdition] = useState<string[][]>(cantusSections1892);
   const [editionYear, setEditionYear] = useState<number>(1892);
   const [week, setWeek] = useState<number | "All">(weekNumber);
+  const [textDecor, setTextDecor] = useState(true);
   const topElementRef = useRef<HTMLDivElement>(null);
 
   const scrollToTop = () => {
@@ -43,6 +44,9 @@ const CantusWeek = () => {
   };
   const handleNow = () => {
     setWeek(weekNumber);
+  };
+  const handleTextDecor = () => {
+    setTextDecor(!textDecor);
   };
 
   const [cantusIsVisible, setCantusIsVisible] = useState(false);
@@ -85,12 +89,12 @@ const CantusWeek = () => {
       window.removeEventListener("scrollToCantus", handleScrollToCantus);
   }, []);
 
-  type FadeInTitleProps = {
+  type FadeInProps = {
     children: React.ReactNode;
     once?: boolean;
   };
 
-  const FadeInTitle = ({ children, once = false }: FadeInTitleProps) => {
+  const FadeInTitle = ({ children, once = false }: FadeInProps) => {
     const ref = useRef(null);
     const isInView = useInView(ref, {
       amount: "all",
@@ -157,7 +161,7 @@ const CantusWeek = () => {
             <div className="w-[300px] flex items-center justify-center text-center gap-2 opacity-100">
               <p
                 className="whitespace-nowrap text-sm text-muted-foreground ml-3 md:ml-0 cursor-pointer"
-                onClick={handleNow}
+                onClick={handleTextDecor}
               >
                 {leftSubtitle}
               </p>
@@ -251,6 +255,12 @@ const CantusWeek = () => {
                       );
                     };
 
+                    function stripFormatting(str: string) {
+                      return str[0] === "*" || str[0] === "?"
+                        ? str.slice(1)
+                        : str;
+                    }
+
                     const applyDropCap = (
                       text: string,
                       apply: boolean,
@@ -262,39 +272,51 @@ const CantusWeek = () => {
                         text[0] === "(" ||
                         text.includes("*") // TODO add * to source text lines to exempt from this styling.
                       )
-                        return text;
+                        return stripFormatting(text);
 
-                      const firstVisibleIndex = text.search(/\S/);
-                      const firstLetter = text[firstVisibleIndex];
-                      const before = text.slice(0, firstVisibleIndex);
-                      const after = text.slice(firstVisibleIndex + 1);
+                      const deFormattedText = stripFormatting(text);
+
+                      const firstVisibleIndex = deFormattedText.search(/\S/);
+                      const firstLetter = deFormattedText[firstVisibleIndex];
+                      const before = deFormattedText.slice(
+                        0,
+                        firstVisibleIndex
+                      );
+                      const after = deFormattedText.slice(
+                        firstVisibleIndex + 1
+                      );
 
                       const dynamicCapSize =
-                        index === 0
+                        index === 0 || line[0] === "?"
                           ? "text-5xl"
                           : index < 6
                           ? "text-4xl"
                           : "text-3xl";
 
                       const dynamicMarginBottom =
-                        index === 0
+                        index === 0 || line[0] === "?"
                           ? "-1.5rem"
                           : index < 6
                           ? "-1rem"
                           : "-0.5rem";
 
                       const dynamicMarginRight =
-                        index === 0 ? "mr-5" : index < 6 ? "mr-4.5" : "mr-4";
+                        index === 0 || line[0] === "?"
+                          ? "mr-5"
+                          : index < 6
+                          ? "mr-4.5"
+                          : "mr-4";
 
                       return (
                         <>
                           {before}
-                          {/* opacity-50 => 80 depending on view. with an intial  */}
+                          {/* TODO opacity-50 => 80 depending on view. with an intial  */}
                           {/* the shadowing to simulate thickness across broswers behaved poorly on safari due to a forced re-paint tied with the opacity/hovers of line numbers, hence the willChange in their rendering*/}
+                          {/* prior to brightening: md:opacity-65 opacity-80 md:dark:opacity-75 dark:opacity-72 */}
                           <span
                             className={`drop-cap 
                               ${dynamicCapSize} 
-                                [text-shadow:0_0_0.5px_currentColor] float-left leading-[0.8] ${dynamicMarginRight} mt-[2px] md:opacity-65 opacity-80 md:dark:opacity-75 dark:opacity-72`}
+                                [text-shadow:0_0_0.5px_currentColor] float-left leading-[0.8] ${dynamicMarginRight} mt-[2px] md:opacity-69 opacity-84 md:dark:opacity-81 dark:opacity-78`}
                             style={{
                               marginBottom: dynamicMarginBottom,
                             }}
@@ -341,7 +363,7 @@ const CantusWeek = () => {
                               <span>
                                 {applyDropCap(
                                   preserveElliptics(line),
-                                  showLineNumber,
+                                  showLineNumber && textDecor,
                                   index
                                 )}
                               </span>
@@ -350,7 +372,7 @@ const CantusWeek = () => {
                                 <span className="tracking-widest">
                                   {applyDropCap(
                                     preserveElliptics(tracked),
-                                    showLineNumber,
+                                    showLineNumber && textDecor,
                                     index
                                   )}
                                 </span>
