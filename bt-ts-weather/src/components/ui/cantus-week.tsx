@@ -57,7 +57,7 @@ const CantusWeek = () => {
         className={`
         drop-cap
         transition-opacity
-        duration-1000
+        duration-2000
         ease-in-out
         ${className}
       `}
