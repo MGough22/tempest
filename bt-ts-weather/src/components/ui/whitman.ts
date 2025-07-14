@@ -1810,6 +1810,8 @@ export const cantusSections1892 = [
 ];
 
 // See comments for silent corrections to typographical errors in the 1855 printing.
+// Formatting: Various dropcaps are rendered automatically when selected in the app,
+// but in specific cases an "•" or "?" at the zeroth index of a line in the sourcetexts will disable or enlarge it's dropcap respectively.
 
 export const cantusSections1855 = [
   [
@@ -3207,7 +3209,7 @@ export const cantusSections1855 = [
     "",
   ],
   [
-    ". . . . A call in the midst of the crowd,",
+    "*. . . . A call in the midst of the crowd,",
     "My own voice, orotund sweeping and final.",
     "",
     "Come my children,",
