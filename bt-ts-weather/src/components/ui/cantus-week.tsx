@@ -15,6 +15,7 @@ import { FULL_TEXT, WeekSelector } from "./week-selector";
 import { useRef, useEffect, useState } from "react";
 import { useInView } from "motion/react";
 import { useTheme } from "@/context/theme-provider";
+import { toRoman } from "@/utils/toRoman";
 
 const weekNumber = getWeek(new Date());
 const currentDate = format(new Date(), "d MMMM yyyy");
@@ -316,7 +317,7 @@ const CantusWeek = () => {
                         !apply ||
                         !text.trim() ||
                         text[0] === "(" ||
-                        text.includes("*") // TODO add * to source text lines to exempt from this styling.
+                        text.includes("*")
                       )
                         return stripFormatting(text);
 
@@ -376,9 +377,9 @@ const CantusWeek = () => {
                         untracked = line.slice(splitIncipit1855Index);
                       }
 
-                      console.log("renderedLineIndex: ", index);
-                      console.log("its first letter: ", line[0]);
-                      console.log("line: ", line);
+                      // console.log("renderedLineIndex: ", index);
+                      // console.log("its first letter: ", line[0]);
+                      // console.log("line: ", line);
 
                       const getIndentClass = () => {
                         if (index === 1) return "pl-12";
@@ -480,25 +481,3 @@ const CantusWeek = () => {
 };
 
 export default CantusWeek;
-
-const toRoman = (num: number): string => {
-  if (num <= 0 || num >= 53) return num.toString();
-
-  const romanMap: [number, string][] = [
-    [50, "L"],
-    [40, "XL"],
-    [10, "X"],
-    [9, "IX"],
-    [5, "V"],
-    [4, "IV"],
-    [1, "I"],
-  ];
-
-  return romanMap.reduce((acc, [value, numeral]) => {
-    while (num >= value) {
-      acc += numeral;
-      num -= value;
-    }
-    return acc;
-  }, "");
-};
