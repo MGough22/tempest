@@ -297,8 +297,12 @@ const CantusWeek = () => {
                     );
 
                     const preserveElliptics = (text: string) => {
-                      return text.replace(/(\. ?){2,}/g, match =>
-                        match.replace(/ /g, "\u00A0")
+                      return text.replace(
+                        /((?:\.\s+){2,}\.)(\s?)/g,
+                        (_, dots, trailing) => {
+                          const glued = dots.replace(/\s+/g, "\u00A0");
+                          return glued + (trailing || " ");
+                        }
                       );
                     };
 
