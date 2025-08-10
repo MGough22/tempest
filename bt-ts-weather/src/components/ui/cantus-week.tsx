@@ -15,7 +15,11 @@ import { FULL_TEXT, WeekSelector } from "./week-selector";
 import { useRef, useEffect, useState } from "react";
 import { useInView } from "motion/react";
 import { useTheme } from "@/context/theme-provider";
-import { toRoman } from "@/utils/toRoman";
+import {
+  toRoman,
+  preserveElliptics,
+  stripFormatting,
+} from "@/utils/typography";
 
 const weekNumber = getWeek(new Date());
 const currentDate = format(new Date(), "d MMMM yyyy");
@@ -295,22 +299,6 @@ const CantusWeek = () => {
                         )}
                       </div>
                     );
-
-                    const preserveElliptics = (text: string) => {
-                      return text.replace(
-                        /((?:\.\s+){2,}\.)(\s?)/g,
-                        (_, dots, trailing) => {
-                          const glued = dots.replace(/\s+/g, "\u00A0");
-                          return glued + (trailing || " ");
-                        }
-                      );
-                    };
-
-                    function stripFormatting(str: string) {
-                      return str[0] === "*" || str[0] === "?"
-                        ? str.slice(1)
-                        : str;
-                    }
 
                     const applyDropCap = (
                       text: string,

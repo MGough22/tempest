@@ -3614,6 +3614,40 @@ export const cantusSections1855 = [
   ],
 ];
 
+export const cantusSectionsEclectic = [
+  [
+    "I celebrate myself, and sing msyelf,",
+    "And what I assume you shall assume,",
+    "For every atom belonging to me, as good belongs to you.",
+    "",
+    "I loafe and invite my Soul,",
+    "I lean and loafe at my ease . . . . observing a spear of summer grass. ",
+    "",
+  ],
+  [
+    "Houses and rooms are full of perfumes . . . . the shelves are crowded with perfumes,",
+    "I breathe the fragrance myself, & know it & like it;",
+    "The distillation would intoxicate me also, but I shall not let it.",
+    "",
+    "The atmosphere is not a perfume . . . . it has no  taste of the distillation . . . . it is odorless;",
+    "It is for my mouth forever . . . . I am in love with it,",
+    "I will go to the bank by the wood, & become undisguised & naked,",
+    "I am mad for it to be in contact with me. ",
+    "",
+    "The smoke of my own breath,",
+    "Echos, ripples, and buzzed whispers . . . . loveroot, silkthread, crotch and vine,",
+    "My respiration and inspiration . . . . the beating of my heart . . . . the passing of blood & air through my lungs,",
+    "The sniff of green leaves & dry leaves, and of the shore and darkcolored searocks, and of hay in the barn,",
+    "The sound of the belched words of my voice . . . . words loosed to the eddies of the wind,",
+    "A few light kisses . . . . a few embraces . . . . a reaching around of arms,",
+    "The play of shine and shade on the trees as the supple boughs wag,",
+    "The delight alone or in the rush of the streets, or along the fields and hillsides,",
+    "The feeling of health . . . . the full-noon trill . . . . the song of me rising from bed & meeting the sun.",
+    "",
+  ],
+  [],
+];
+
 export const lineNumberStartValue = (week: number, edition: string[][]) => {
   const sectionIndex = week - 1;
   let initialLineNumber = 1;

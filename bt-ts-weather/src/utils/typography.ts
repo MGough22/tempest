@@ -1,3 +1,14 @@
+export const preserveElliptics = (text: string) => {
+  return text.replace(/((?:\.\s+){2,}\.)(\s?)/g, (_, dots, trailing) => {
+    const glued = dots.replace(/\s+/g, "\u00A0");
+    return glued + (trailing || " ");
+  });
+};
+
+export const stripFormatting = (str: string) => {
+  return str[0] === "*" || str[0] === "?" ? str.slice(1) : str;
+};
+
 export const toRoman = (num: number): string => {
   if (num <= 0 || num >= 53) return num.toString();
 
